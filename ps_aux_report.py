@@ -9,9 +9,6 @@ def create_data():
     count_user = {}
     cpu = float(0)
     mem = float(0)
-    file = open("otus7.txt", "w")
-    file.write(str(all_list))
-    file.close()
     all_list.pop(0)
     all_list.pop()
     # go to list all objects user/pid/cpu and etc
