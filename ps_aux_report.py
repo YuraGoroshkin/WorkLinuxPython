@@ -7,27 +7,39 @@ def create_data():
     result_count_process = len(all_list) - 1
     user = []
     count_user = {}
+    cpu = float(0)
+    mem = float(0)
     file = open("otus7.txt", "w")
     file.write(str(all_list))
     file.close()
+    all_list.pop(0)
+    all_list.pop()
+    # go to list all objects user/pid/cpu and etc
     for object_list in all_list:
         list_this_obj = object_list.split()
+        cpu += float(list_this_obj[2])
+        mem += float(list_this_obj[4])
         if list_this_obj[0] not in user:
             user.append(list_this_obj[0])
         elif list_this_obj[0] in user:
             i = user.index(list_this_obj[0])
-            key = str(i - 1)
+            key = str(i)
             if key not in count_user:
-                count_user.update({str(i - 1) : 0})
+                count_user.update({str(i): 0})
             if key in count_user:
-                count_user[str(i - 1)] = count_user.get(str(i - 1)) + 1
-    user.pop()
-    user.pop(0)
-    result_count_root = all_list.count('root')
-    return user, result_count_process, result_count_root
+                count_user[str(i)] = count_user.get(str(i)) + 1
+    mem = float("{0:.1f}".format(mem / 1000000))
+    cpu = round(cpu)
+    data = (f'Отчёт о состоянии системы:\n  Пользователи системы:{user}\n  Процессов запущено:{result_count_process}\n  '
+            f'Пользовательских процессов:{user} {count_user}\n  Всего памяти используется:{mem} mb\n  Всего CPU используется:{cpu} %')
+    return data
 
 
 def out_file():
+    file = open("otus7.txt", "w")
+    form = create_data()
+    file.write(form)
+    file.close()
     pass
 
 
@@ -35,16 +47,6 @@ def start_ps_aux():
     result = subprocess.run(["ps", "aux"], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
     return result
 
+
 a = create_data()
-print(a[0])
-print(a[2])
-
-# for i in c:
-#     a = i.split()
-#     c = a[0]
-#     print(a[0])
-# # writing
-# file = open("otus7.txt", "w")
-# file.write(str(c))
-# file.close()
-
+print(a)
