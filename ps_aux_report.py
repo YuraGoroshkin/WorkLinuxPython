@@ -67,7 +67,7 @@ def create_data():
 def out_file():
     date = datetime.datetime.now().date()
     time = datetime.datetime.now().time()
-    file = open(f"{date.day}-{date.month}-{date.year}-{time.hour}:{time.minute}-scan.txt", "w")
+    file = open(f"{date.day}-{date.month}-{date.year}-{time.hour}:{time.minute}-scan-ps.txt", "w")
     form = create_data()
     file.write(form)
     file.close()
